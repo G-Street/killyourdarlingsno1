@@ -8,6 +8,8 @@ keywords = ["bevy", "gamedev"]
 
 [dependencies]
 bevy = "0.18.1"
+# Fork of (abandoned) github.com/Corrosive-Games/bevy-parallax, which doesn't work with Bevy > 0.15
+bevy_parallaxium = "0.3.0"
 wasm-bindgen = "=0.2.106"
 
 [[bin]]

@@ -1063,6 +1063,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7ef8e4b7e61dfe7719bb03c884dc270cd46a82efb40f93e9933b990c5c190c59"
 
 [[package]]
+name = "bevy_parallaxium"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "164c266c362ed641373a9eacdab10d48f7e7055e2daa3b090e4a30a04bac41c7"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
 name = "bevy_pbr"
 version = "0.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3040,6 +3049,7 @@ name = "killyourdarlingsno1"
 version = "0.0.0"
 dependencies = [
  "bevy",
+ "bevy_parallaxium",
  "wasm-bindgen",
 ]
 
