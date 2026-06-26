@@ -7,7 +7,13 @@ use bevy::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "Feather Falling IV".into(),
+                ..default()
+            }),
+            ..default()
+        }))
         .add_message::<Collision>()
         .add_message::<KillPlayer>()
         .add_systems(Startup, setup)
