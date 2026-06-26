@@ -4,11 +4,12 @@ use crate::{
     killzone::{kill_player_system, killzone_system, KillPlayer, KillZone},
     player::Player,
 };
+use avian2d::prelude::*;
 use bevy::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins(
+        .add_plugins((
             DefaultPlugins
                 .set(WindowPlugin {
                     primary_window: Some(Window {
@@ -21,7 +22,10 @@ fn main() {
                     // nearest sampling, to prevent blurry sprites
                     ImagePlugin::default_nearest(),
                 ),
-        )
+            // Use units-per-meter scaling factor of 1 meter to 20 pixels
+            PhysicsPlugins::default().with_length_unit(20.0),
+        ))
+        .insert_resource(Gravity(Vec2::NEG_Y * 10.0))
         .add_message::<Collision>()
         .add_message::<KillPlayer>()
         .add_systems(Startup, setup)
@@ -52,6 +56,7 @@ fn setup(mut commands: Commands) {
         Collider {
             size: Vec2::new(50.0, 50.0),
         },
+        RigidBody::Dynamic,
     ));
 
     // Enemy
@@ -78,16 +83,6 @@ fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Trans
 
     if input.pressed(KeyCode::ArrowRight) || input.pressed(KeyCode::KeyD) {
         transform.translation.x += player.movement_speed;
-    }
-
-    // TODO: this control is temporarily added to test pagination of background.  Once gravity
-    //   is implemented, we can look at removing this and modifying the camera-following code
-    //   (`background::move_camera`) to simply follow the Player entity.
-    //
-    // NOTE: on the topic of gravity, we could consider using the Avian physics engine:
-    //     <github.com/avianphysics/avian/tree/d1295a30/crates/avian2d/examples>
-    if input.pressed(KeyCode::ArrowDown) || input.pressed(KeyCode::KeyS) {
-        transform.translation.y -= player.movement_speed;
     }
 }
 

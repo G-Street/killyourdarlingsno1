@@ -7,6 +7,8 @@ repository = "https://github.com/G-Street/killyourdarlingsno1"
 keywords = ["bevy", "gamedev"]
 
 [dependencies]
+# Using avian2d v0.6 for compat with bevy v0.18
+avian2d = "0.6.0"
 bevy = "0.18.1"
 # Fork of (abandoned) github.com/Corrosive-Games/bevy-parallax, which doesn't work with Bevy > 0.15
 bevy_parallaxium = "0.3.0"
