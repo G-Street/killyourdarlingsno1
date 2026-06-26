@@ -1,6 +1,7 @@
 use crate::{
     background::{camera_parallax_bundle, parallax_plugin},
-    killzone::{kill_player_system, killzone_system, KillPlayer, KillZone},
+    killzone::{kill_player_system, killzone_system, KillPlayer},
+    obstacles::ObstaclesPlugin,
     player::Player,
 };
 use avian2d::prelude::*;
@@ -29,7 +30,7 @@ fn main() {
         .add_systems(Startup, setup)
         .add_systems(FixedUpdate, controls)
         .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain())
-        .add_plugins(parallax_plugin)
+        .add_plugins((parallax_plugin, ObstaclesPlugin))
         .run();
 }
 
@@ -52,19 +53,6 @@ fn setup(mut commands: Commands) {
         Collider::rectangle(50.0, 50.0),
         CollisionEventsEnabled,
     ));
-
-    // Enemy
-    commands.spawn((
-        Transform::from_xyz(150.0, 0.0, 0.0),
-        Sprite {
-            color: Color::srgb(0.55, 0.25, 0.25),
-            custom_size: Some(Vec2::new(50.0, 50.0)),
-            ..default()
-        },
-        Collider::rectangle(50.0, 50.0),
-        CollisionEventsEnabled,
-        KillZone,
-    ));
 }
 
 fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Transform)>) {
@@ -81,4 +69,5 @@ fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Trans
 
 pub mod background;
 pub mod killzone;
+pub mod obstacles;
 pub mod player;
