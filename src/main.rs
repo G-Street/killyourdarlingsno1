@@ -72,11 +72,11 @@ fn setup(mut commands: Commands) {
 fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Transform)>) {
     let (player, mut transform) = query.into_inner();
 
-    if input.pressed(KeyCode::ArrowLeft) {
+    if input.pressed(KeyCode::ArrowLeft) || input.pressed(KeyCode::KeyA) {
         transform.translation.x -= player.movement_speed;
     }
 
-    if input.pressed(KeyCode::ArrowRight) {
+    if input.pressed(KeyCode::ArrowRight) || input.pressed(KeyCode::KeyD) {
         transform.translation.x += player.movement_speed;
     }
 
@@ -86,7 +86,7 @@ fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Trans
     //
     // NOTE: on the topic of gravity, we could consider using the Avian physics engine:
     //     <github.com/avianphysics/avian/tree/d1295a30/crates/avian2d/examples>
-    if input.pressed(KeyCode::ArrowDown) {
+    if input.pressed(KeyCode::ArrowDown) || input.pressed(KeyCode::KeyS) {
         transform.translation.y -= player.movement_speed;
     }
 }
