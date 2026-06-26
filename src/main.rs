@@ -35,8 +35,10 @@ fn main() {
 }
 
 fn setup(mut commands: Commands) {
+    // Camera and background
     commands.spawn(camera_parallax_bundle());
 
+    // Player
     commands.spawn((
         Transform::from_xyz(0.0, 0.0, 0.0),
         Sprite {
@@ -50,6 +52,7 @@ fn setup(mut commands: Commands) {
         },
     ));
 
+    // Enemy
     commands.spawn((
         Transform::from_xyz(350.0, 0.0, 0.0),
         Sprite {
