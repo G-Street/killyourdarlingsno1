@@ -1,5 +1,7 @@
-use bevy::math::bounding::IntersectsVolume;
-use bevy::{math::bounding::Aabb2d, prelude::*};
+use bevy::{
+    math::bounding::{Aabb2d, IntersectsVolume},
+    prelude::*,
+};
 
 #[derive(Component)]
 pub struct Collider {

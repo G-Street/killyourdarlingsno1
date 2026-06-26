@@ -1,5 +1,4 @@
-use crate::collider::Collision;
-use crate::player::Player;
+use crate::{collider::Collision, player::Player};
 use bevy::prelude::*;
 
 #[derive(Component)]
