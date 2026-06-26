@@ -1,0 +1,5 @@
+/.direnv/
+/export/
+/target/
+
+*.so

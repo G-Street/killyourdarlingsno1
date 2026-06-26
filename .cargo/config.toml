@@ -1,0 +1,10 @@
+[build]
+rustflags = [
+    "-C",
+    "link-arg=-Wl,-rpath,$ORIGIN",
+    "-C",
+    "link-arg=-Wl,-rpath,/lib/x86_64-linux-gnu/",
+]
+
+[target.wasm32-unknown-unknown]
+runner = "wasm-server-runner"
