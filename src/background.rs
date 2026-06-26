@@ -12,18 +12,17 @@ pub fn parallax_plugin(app: &mut App) {
 // TODO: is it idiomatic to ship a whole bundle from a submodule, or is it best to construct
 //   this in the main module on setup?  I just didn't want to import all of the bevy parallax
 //   stuff again in main.rs.
-//
-// TODO: Why is this texture not repeated more than a few times?  I think it's to do with
-//   the scaling factor...
-//     <github.com/Gialale-Games/bevy_parallaxium/tree/f18b3524>
 pub fn camera_parallax_bundle() -> impl Bundle {
     (
         Camera2d,
         ParallaxCamera::default(),
         children![
+            // This image is scaled up by 5×:
+            //     magick input.png -filter point -resize 500% output.png
+            //
+            // Using `.with_scale()` caused a different bug, so we have to do it like this
             ParallaxLayer::new("textures/wall_brick_sand_center.png", 0.0)
-                .with_tile_size(UVec2::new(64, 128))
-                .with_scale(Vec2::splat(5.0))
+                .with_tile_size(UVec2::new(320, 640))
                 .with_repeat(LayerRepeat::vertical())
                 .with_z(-1.0),
         ],
