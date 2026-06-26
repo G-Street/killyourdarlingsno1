@@ -1,3 +1,4 @@
+use crate::player::Player;
 use bevy::prelude::*;
 use bevy_parallaxium::{
     LayerRepeat, ParallaxCamera, ParallaxLayer, ParallaxMoveEvent, ParallaxPlugin, ParallaxSystems,
@@ -25,27 +26,25 @@ pub fn camera_parallax_bundle() -> impl Bundle {
     )
 }
 
+// Camera should move with player entity
 fn move_camera(
-    input: Res<ButtonInput<KeyCode>>,
+    mut last_pos: Local<Vec2>,
     mut move_events: MessageWriter<ParallaxMoveEvent>,
-    query: Query<Entity, With<Camera>>,
+    camera_query: Query<Entity, With<Camera>>,
+    player_query: Query<&Transform, With<Player>>,
 ) {
-    let camera = query.single().unwrap();
-    let mut translation = Vec2::ZERO;
+    let Ok(player_transform) = player_query.single() else {
+        error!("player not found");
+        return;
+    };
 
-    // TODO: currently the background is changing when the down arrow is pressed.
-    //   In the actual game, we will want the background to be dynamic with the camera.
-    //   Also, we will want the camera to be slightly lower down, below the Player,
-    //   so that the user can see what is coming up.
-    //
-    //   See example from bevy parallax crate:
-    //     <github.com/Gialale-Games/bevy_parallaxium/blob/f18b3524/examples/test.rs>
-    if input.pressed(KeyCode::ArrowDown) || input.pressed(KeyCode::KeyS) {
-        translation.y -= 1.0;
-    }
+    let current_pos = player_transform.translation.truncate();
+    let translation = current_pos - *last_pos;
+    *last_pos = current_pos;
 
-    // Apply translation to parallax background
+    // Apply translation to the camera, which thereby shifts the parallax background
     if translation != Vec2::ZERO {
+        let camera = camera_query.single().unwrap();
         move_events.write(ParallaxMoveEvent::translate(camera, translation));
     }
 }
