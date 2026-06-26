@@ -39,7 +39,9 @@ fn move_camera(
     };
 
     let current_pos = player_transform.translation.truncate();
-    let translation = current_pos - *last_pos;
+
+    // We only care about vertical change, as the camera should be horizontally centred
+    let translation = Vec2::Y * (current_pos.y - last_pos.y);
     *last_pos = current_pos;
 
     // Apply translation to the camera, which thereby shifts the parallax background
