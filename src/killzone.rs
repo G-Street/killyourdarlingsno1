@@ -1,4 +1,5 @@
-use crate::{collider::Collision, player::Player};
+use crate::player::Player;
+use avian2d::collision::collision_events::CollisionStart;
 use bevy::prelude::*;
 
 #[derive(Component)]
@@ -8,31 +9,32 @@ pub struct KillZone;
 pub struct KillPlayer(Entity);
 
 pub fn killzone_system(
-    mut collisions: MessageReader<Collision>,
+    mut collisions: MessageReader<CollisionStart>,
     players: Query<&Player>,
     killzones: Query<&KillZone>,
     mut events: MessageWriter<KillPlayer>,
 ) {
     for c in collisions.read() {
-        let p0 = players.get(c.0);
-        let p1 = players.get(c.1);
-        if p0.is_err() == p1.is_err() {
+        info!("collision: {:?} - {:?}", c.collider1, c.collider2);
+        let p1 = players.get(c.collider1);
+        let p2 = players.get(c.collider2);
+        if p1.is_err() == p2.is_err() {
             continue;
         }
 
-        let k0 = killzones.get(c.0);
-        let k1 = killzones.get(c.1);
-        if k0.is_err() == k1.is_err() {
+        let k1 = killzones.get(c.collider1);
+        let k2 = killzones.get(c.collider2);
+        if k1.is_err() == k2.is_err() {
             continue;
         }
 
-        if p0.is_ok() && k1.is_ok() {
-            events.write(KillPlayer(c.0));
+        if p1.is_ok() && k2.is_ok() {
+            events.write(KillPlayer(c.collider1));
             continue;
         }
 
-        if p1.is_ok() && k0.is_ok() {
-            events.write(KillPlayer(c.1));
+        if p2.is_ok() && k1.is_ok() {
+            events.write(KillPlayer(c.collider2));
             continue;
         }
     }

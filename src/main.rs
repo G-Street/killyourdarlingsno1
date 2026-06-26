@@ -1,6 +1,5 @@
 use crate::{
     background::{camera_parallax_bundle, parallax_plugin},
-    collider::{collition_system, Collider, Collision},
     killzone::{kill_player_system, killzone_system, KillPlayer, KillZone},
     player::Player,
 };
@@ -26,14 +25,10 @@ fn main() {
             PhysicsPlugins::default().with_length_unit(20.0),
         ))
         .insert_resource(Gravity(Vec2::NEG_Y * 10.0))
-        .add_message::<Collision>()
         .add_message::<KillPlayer>()
         .add_systems(Startup, setup)
         .add_systems(FixedUpdate, controls)
-        .add_systems(
-            FixedUpdate,
-            (collition_system, killzone_system, kill_player_system).chain(),
-        )
+        .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain())
         .add_plugins(parallax_plugin)
         .run();
 }
@@ -53,23 +48,21 @@ fn setup(mut commands: Commands) {
         Player {
             movement_speed: 5.0,
         },
-        Collider {
-            size: Vec2::new(50.0, 50.0),
-        },
         RigidBody::Dynamic,
+        Collider::rectangle(50.0, 50.0),
+        CollisionEventsEnabled,
     ));
 
     // Enemy
     commands.spawn((
-        Transform::from_xyz(350.0, 0.0, 0.0),
+        Transform::from_xyz(150.0, 0.0, 0.0),
         Sprite {
             color: Color::srgb(0.55, 0.25, 0.25),
             custom_size: Some(Vec2::new(50.0, 50.0)),
             ..default()
         },
-        Collider {
-            size: Vec2::new(50.0, 50.0),
-        },
+        Collider::rectangle(50.0, 50.0),
+        CollisionEventsEnabled,
         KillZone,
     ));
 }
@@ -87,6 +80,5 @@ fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Trans
 }
 
 pub mod background;
-pub mod collider;
 pub mod killzone;
 pub mod player;
