@@ -46,7 +46,9 @@ fn setup(mut commands: Commands) {
             custom_size: Some(Vec2::new(50.0, 50.0)),
             ..default()
         },
-        Player,
+        Player {
+            movement_speed: 5.0,
+        },
         Collider {
             size: Vec2::new(50.0, 50.0),
         },
@@ -68,14 +70,14 @@ fn setup(mut commands: Commands) {
 }
 
 fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Transform)>) {
-    let (_player, mut transform) = query.into_inner();
+    let (player, mut transform) = query.into_inner();
 
     if input.pressed(KeyCode::ArrowLeft) {
-        transform.translation.x -= 1.0;
+        transform.translation.x -= player.movement_speed;
     }
 
     if input.pressed(KeyCode::ArrowRight) {
-        transform.translation.x += 1.0;
+        transform.translation.x += player.movement_speed;
     }
 
     // TODO: this control is temporarily added to test pagination of background.  Once gravity
@@ -85,7 +87,7 @@ fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Trans
     // NOTE: on the topic of gravity, we could consider using the Avian physics engine:
     //     <github.com/avianphysics/avian/tree/d1295a30/crates/avian2d/examples>
     if input.pressed(KeyCode::ArrowDown) {
-        transform.translation.y -= 1.0;
+        transform.translation.y -= player.movement_speed;
     }
 }
 
