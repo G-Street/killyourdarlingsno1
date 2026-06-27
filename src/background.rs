@@ -57,6 +57,7 @@ fn move_camera(
     *last_pos = current_pos;
 
     // Apply translation to the camera, which thereby shifts the parallax background
+    // TODO: do we want the camera slightly offset from player?
     if translation != Vec2::ZERO {
         let camera = camera_query.single().unwrap();
         move_events.write(ParallaxMoveEvent::translate(camera, translation));

@@ -9,6 +9,7 @@ pub struct Player {
 impl Default for Player {
     fn default() -> Self {
         Self {
+            // TODO: is this too fast?
             movement_speed: 500.0,
             size: Vec2::new(50.0, 50.0),
         }
