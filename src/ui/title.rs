@@ -51,29 +51,25 @@ fn spawn_title(mut commands: Commands) {
                 },
             ));
             parent.spawn((
-                Text::new("start falling"),
+                Text::new("press any key to start falling"),
                 TextFont {
                     font_size: 32.0,
                     ..default()
                 },
-                // TODO: border to make it obvious that it's a button?
-                Button,
             ));
         });
 }
 
 fn title_system(
     mut commands: Commands,
-    interaction_query: Query<&Interaction, (Changed<Interaction>, With<Button>)>,
+    input: Res<ButtonInput<KeyCode>>,
     overlay_query: Query<Entity, With<TitleOverlay>>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {
-    for interaction in &interaction_query {
-        if *interaction == Interaction::Pressed {
-            for entity in &overlay_query {
-                commands.entity(entity).despawn();
-            }
-            next_state.set(GameState::Playing);
+    if input.get_just_pressed().next().is_some() {
+        for entity in &overlay_query {
+            commands.entity(entity).despawn();
         }
+        next_state.set(GameState::Playing);
     }
 }
