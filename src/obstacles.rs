@@ -42,7 +42,6 @@ fn startup(mut commands: Commands) {
     commands.insert_resource(Random(rng));
 }
 
-// TODO (bug): you can win the game by sticking to the far right
 fn spawn_obstacles(
     mut commands: Commands,
     mut previous: Local<f32>,
@@ -61,7 +60,7 @@ fn spawn_obstacles(
 
     *previous += spacing.spacing;
 
-    let lane = lanes.get(random.random_range(0..2)).unwrap();
+    let lane = lanes.get(random.random_range(0..3)).unwrap();
 
     commands.spawn(enemy_bundle(Vec2::new(
         *lane,
