@@ -1,5 +1,5 @@
 use crate::{
-    background::{camera_parallax_bundle, parallax_plugin},
+    background::{camera_parallax_bundle, BackgroundPlugin},
     killzone::{kill_player_system, killzone_system, KillPlayer},
     obstacles::ObstaclesPlugin,
     player::Player,
@@ -32,7 +32,7 @@ fn main() {
         .add_systems(FixedUpdate, controls)
         .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain())
         .add_systems(Update, death_overlay_system)
-        .add_plugins((parallax_plugin, ObstaclesPlugin))
+        .add_plugins((BackgroundPlugin, ObstaclesPlugin))
         .run();
 }
 

@@ -7,9 +7,13 @@ use bevy_parallaxium::{
 pub const WIDTH: u32 = 64 * 5;
 pub const HEIGHT: u32 = 128 * 5;
 
-pub fn parallax_plugin(app: &mut App) {
-    app.add_plugins(ParallaxPlugin)
-        .add_systems(Update, move_camera.before(ParallaxSystems));
+pub struct BackgroundPlugin;
+
+impl Plugin for BackgroundPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_plugins(ParallaxPlugin)
+            .add_systems(Update, move_camera.before(ParallaxSystems));
+    }
 }
 
 // TODO: is it idiomatic to ship a whole bundle from a submodule, or is it best to construct
