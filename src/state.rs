@@ -7,6 +7,7 @@ pub enum GameState {
     Title,
     Playing,
     Dead,
+    Won,
 }
 
 pub struct GameStatePlugin;
@@ -16,6 +17,7 @@ impl Plugin for GameStatePlugin {
         app.init_state::<GameState>()
             .add_systems(OnEnter(GameState::Title), pause_physics)
             .add_systems(OnEnter(GameState::Dead), pause_physics)
+            .add_systems(OnEnter(GameState::Won), pause_physics)
             .add_systems(OnEnter(GameState::Playing), unpause_physics);
     }
 }

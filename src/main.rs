@@ -4,7 +4,8 @@ use crate::{
     obstacles::ObstaclesPlugin,
     player::Player,
     state::GameStatePlugin,
-    ui::{death::DeathPlugin, hud::HudPlugin, title::TitlePlugin},
+    ui::{death::DeathPlugin, hud::HudPlugin, title::TitlePlugin, won::WonPlugin},
+    winzone::WinZonePlugin,
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -35,6 +36,8 @@ fn main() {
             KillZonePlugin,
             HudPlugin,
             DeathPlugin,
+            WonPlugin,
+            WinZonePlugin,
         ))
         .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
         .add_systems(Startup, setup)
@@ -107,3 +110,4 @@ pub mod obstacles;
 pub mod player;
 pub mod state;
 pub mod ui;
+pub mod winzone;
