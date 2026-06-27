@@ -3,11 +3,14 @@ use crate::{
     killzone::KillZonePlugin,
     obstacles::ObstaclesPlugin,
     player::Player,
-    ui::{death::DeathPlugin, title::TitlePlugin},
     state::GameStatePlugin,
+    ui::{death::DeathPlugin, hud::HudPlugin, title::TitlePlugin},
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
+
+// Units-per-metre scaling factor of 1 metre to 20 pixels
+pub const PIXELS_PER_METRE: f32 = 20.0;
 
 fn main() {
     App::new()
@@ -24,13 +27,13 @@ fn main() {
                     // Nearest sampling, to prevent blurry sprites
                     ImagePlugin::default_nearest(),
                 ),
-            // Use units-per-meter scaling factor of 1 meter to 20 pixels
-            PhysicsPlugins::default().with_length_unit(20.0),
+            PhysicsPlugins::default().with_length_unit(PIXELS_PER_METRE),
             GameStatePlugin,
             TitlePlugin,
             BackgroundPlugin,
             ObstaclesPlugin,
             KillZonePlugin,
+            HudPlugin,
             DeathPlugin,
         ))
         .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
