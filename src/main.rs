@@ -51,18 +51,39 @@ fn setup(mut commands: Commands) {
         RigidBody::Dynamic,
         Collider::rectangle(player.size.x, player.size.y),
         CollisionEventsEnabled,
+        // Friction disabled for now or else the player can hold onto the walls
+        Friction::ZERO,
+        // Game crashes if Player collides with wall and rotates 💀
+        LockedAxes::ROTATION_LOCKED,
+    ));
+
+    // Walls
+    let wall_offset = (background::WIDTH as f32) / 2.0;
+    commands.spawn((
+        RigidBody::Static,
+        Collider::rectangle(0.0, f32::MAX),
+        Transform::from_xyz(-wall_offset, 0.0, 0.0),
+        // Friction disabled for now or else the player can hold onto the walls
+        Friction::ZERO,
+    ));
+    commands.spawn((
+        RigidBody::Static,
+        Collider::rectangle(0.0, f32::MAX),
+        Transform::from_xyz(wall_offset, 0.0, 0.0),
+        // Friction disabled for now or else the player can hold onto the walls
+        Friction::ZERO,
     ));
 }
 
-fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut Transform)>) {
-    let (player, mut transform) = query.into_inner();
+fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut LinearVelocity)>) {
+    let (player, mut velocity) = query.into_inner();
 
-    if input.pressed(KeyCode::ArrowLeft) || input.pressed(KeyCode::KeyA) {
-        transform.translation.x -= player.movement_speed;
-    }
-
-    if input.pressed(KeyCode::ArrowRight) || input.pressed(KeyCode::KeyD) {
-        transform.translation.x += player.movement_speed;
+    if input.any_pressed([KeyCode::ArrowLeft, KeyCode::KeyA]) {
+        velocity.x = -player.movement_speed;
+    } else if input.any_pressed([KeyCode::ArrowRight, KeyCode::KeyD]) {
+        velocity.x = player.movement_speed;
+    } else {
+        velocity.x = 0.0;
     }
 }
 

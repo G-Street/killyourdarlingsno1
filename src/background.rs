@@ -4,6 +4,9 @@ use bevy_parallaxium::{
     LayerRepeat, ParallaxCamera, ParallaxLayer, ParallaxMoveEvent, ParallaxPlugin, ParallaxSystems,
 };
 
+pub const WIDTH: u32 = 64 * 5;
+pub const HEIGHT: u32 = 128 * 5;
+
 pub fn parallax_plugin(app: &mut App) {
     app.add_plugins(ParallaxPlugin)
         .add_systems(Update, move_camera.before(ParallaxSystems));
@@ -22,7 +25,7 @@ pub fn camera_parallax_bundle() -> impl Bundle {
             //
             // Using `.with_scale()` caused a different bug, so we have to do it like this
             ParallaxLayer::new("textures/wall_brick_sand_center.png", 0.0)
-                .with_tile_size(UVec2::new(320, 640))
+                .with_tile_size(UVec2::new(WIDTH, HEIGHT))
                 .with_repeat(LayerRepeat::vertical())
                 .with_z(-1.0),
         ],
