@@ -25,7 +25,7 @@ fn main() {
             // Use units-per-meter scaling factor of 1 meter to 20 pixels
             PhysicsPlugins::default().with_length_unit(20.0),
         ))
-        .insert_resource(Gravity(Vec2::NEG_Y * 10.0))
+        .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
         .add_message::<KillPlayer>()
         .add_systems(Startup, setup)
         .add_systems(FixedUpdate, controls)
@@ -55,6 +55,12 @@ fn setup(mut commands: Commands) {
         Friction::ZERO,
         // Game crashes if Player collides with wall and rotates 💀
         LockedAxes::ROTATION_LOCKED,
+        // Apply a constant force of 10 N in the positive y direction (to represent air
+        // resistance or something, (I just found it in the Avian docs and wanted to use
+        // it (not scope creep)))
+        ConstantForce::new(0.0, 10.0),
+        // Feather falls slowly
+        GravityScale(0.05),
     ));
 
     // Walls
