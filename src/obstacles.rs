@@ -2,7 +2,7 @@ use crate::killzone::KillZone;
 use avian2d::collision::{collider::Collider, collision_events::CollisionEventsEnabled};
 use bevy::prelude::*;
 use chacha20::ChaCha8Rng;
-use rand::{RngExt, SeedableRng};
+use rand::{rng, RngExt, SeedableRng};
 
 pub struct ObstaclesPlugin;
 
@@ -38,8 +38,8 @@ struct ObstacleSpacing {
 }
 
 fn startup(mut commands: Commands) {
-    let seeded_rng = ChaCha8Rng::seed_from_u64(19878367467712);
-    commands.insert_resource(Random(seeded_rng));
+    let rng = ChaCha8Rng::from_rng(&mut rng());
+    commands.insert_resource(Random(rng));
 }
 
 fn spawn_obstacles(
