@@ -46,9 +46,7 @@ fn setup(mut commands: Commands) {
             custom_size: Some(Vec2::new(50.0, 50.0)),
             ..default()
         },
-        Player {
-            movement_speed: 5.0,
-        },
+        Player::default(),
         RigidBody::Dynamic,
         Collider::rectangle(50.0, 50.0),
         CollisionEventsEnabled,
