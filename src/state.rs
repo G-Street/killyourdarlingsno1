@@ -6,6 +6,7 @@ pub enum GameState {
     #[default]
     Title,
     Playing,
+    Dead,
 }
 
 pub struct GameStatePlugin;
@@ -14,6 +15,7 @@ impl Plugin for GameStatePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<GameState>()
             .add_systems(OnEnter(GameState::Title), pause_physics)
+            .add_systems(OnEnter(GameState::Dead), pause_physics)
             .add_systems(OnEnter(GameState::Playing), unpause_physics);
     }
 }

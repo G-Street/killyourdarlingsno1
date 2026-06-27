@@ -1,4 +1,4 @@
-use crate::{player::Player, ui::death::spawn_death_overlay};
+use crate::{player::Player, state::GameState};
 use avian2d::collision::collision_events::CollisionStart;
 use bevy::prelude::*;
 
@@ -53,6 +53,7 @@ fn kill_player_system(
     mut commands: Commands,
     mut events: MessageReader<KillPlayer>,
     players: Query<&Player>,
+    mut next_state: ResMut<NextState<GameState>>,
 ) {
     for e in events.read() {
         if players.get(e.entity()).is_err() {
@@ -61,6 +62,6 @@ fn kill_player_system(
         };
 
         commands.entity(e.entity()).despawn();
-        commands.run_system_cached(spawn_death_overlay);
+        next_state.set(GameState::Dead);
     }
 }

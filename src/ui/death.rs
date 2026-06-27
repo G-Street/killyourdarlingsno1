@@ -1,10 +1,15 @@
+use crate::state::GameState;
 use bevy::prelude::*;
 
 pub struct DeathPlugin;
 
 impl Plugin for DeathPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, death_overlay_system);
+        app.add_systems(OnEnter(GameState::Dead), spawn_death_overlay)
+            .add_systems(
+                Update,
+                death_overlay_system.run_if(in_state(GameState::Dead)),
+            );
     }
 }
 
@@ -38,17 +43,5 @@ pub fn spawn_death_overlay(mut commands: Commands) {
         });
 }
 
-fn death_overlay_system(
-    mut commands: Commands,
-    interaction_query: Query<&Interaction, (Changed<Interaction>, With<Button>)>,
-    overlay_query: Query<Entity, With<DeathOverlay>>,
-) {
-    for interaction in &interaction_query {
-        if *interaction == Interaction::Pressed {
-            for entity in &overlay_query {
-                commands.entity(entity).despawn();
-            }
-            // TODO: respawn player
-        }
-    }
-}
+// TODO: respawn player
+fn death_overlay_system() {}
