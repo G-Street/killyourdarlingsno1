@@ -39,16 +39,17 @@ fn setup(mut commands: Commands) {
     commands.spawn(camera_parallax_bundle());
 
     // Player
+    let player = Player::default();
     commands.spawn((
         Transform::from_xyz(0.0, 0.0, 0.0),
+        player,
         Sprite {
             color: Color::srgb(0.25, 0.25, 0.55),
-            custom_size: Some(Vec2::new(50.0, 50.0)),
+            custom_size: Some(player.size),
             ..default()
         },
-        Player::default(),
         RigidBody::Dynamic,
-        Collider::rectangle(50.0, 50.0),
+        Collider::rectangle(player.size.x, player.size.y),
         CollisionEventsEnabled,
     ));
 }
