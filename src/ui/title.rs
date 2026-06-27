@@ -1,5 +1,4 @@
 use crate::state::GameState;
-use avian2d::prelude::*;
 use bevy::prelude::*;
 
 pub struct TitlePlugin;
@@ -7,18 +6,9 @@ pub struct TitlePlugin;
 impl Plugin for TitlePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<GameState>()
-            .add_systems(OnEnter(GameState::Title), (spawn_title, pause_physics))
-            .add_systems(OnEnter(GameState::Playing), unpause_physics)
+            .add_systems(OnEnter(GameState::Title), spawn_title)
             .add_systems(Update, title_system.run_if(in_state(GameState::Title)));
     }
-}
-
-fn pause_physics(mut physics_time: ResMut<Time<Physics>>) {
-    physics_time.pause();
-}
-
-fn unpause_physics(mut physics_time: ResMut<Time<Physics>>) {
-    physics_time.unpause();
 }
 
 #[derive(Component)]

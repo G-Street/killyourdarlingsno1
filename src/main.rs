@@ -4,6 +4,7 @@ use crate::{
     obstacles::ObstaclesPlugin,
     player::Player,
     ui::{death::DeathPlugin, title::TitlePlugin},
+    state::GameStatePlugin,
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -25,6 +26,7 @@ fn main() {
                 ),
             // Use units-per-meter scaling factor of 1 meter to 20 pixels
             PhysicsPlugins::default().with_length_unit(20.0),
+            GameStatePlugin,
             TitlePlugin,
             BackgroundPlugin,
             ObstaclesPlugin,
