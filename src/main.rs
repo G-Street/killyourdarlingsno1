@@ -3,7 +3,7 @@ use crate::{
     killzone::{kill_player_system, killzone_system, KillPlayer},
     obstacles::ObstaclesPlugin,
     player::Player,
-    ui::death_overlay_system,
+    ui::{death_overlay_system, TitlePlugin},
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -25,6 +25,8 @@ fn main() {
                 ),
             // Use units-per-meter scaling factor of 1 meter to 20 pixels
             PhysicsPlugins::default().with_length_unit(20.0),
+            // Main menu
+            TitlePlugin,
         ))
         .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
         .add_message::<KillPlayer>()
