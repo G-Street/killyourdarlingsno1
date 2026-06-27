@@ -24,7 +24,7 @@ fn unpause_physics(mut physics_time: ResMut<Time<Physics>>) {
 #[derive(Component)]
 pub struct TitleOverlay;
 
-pub fn spawn_title(mut commands: Commands) {
+fn spawn_title(mut commands: Commands) {
     commands
         .spawn((
             TitleOverlay,
@@ -62,7 +62,7 @@ pub fn spawn_title(mut commands: Commands) {
         });
 }
 
-pub fn title_system(
+fn title_system(
     mut commands: Commands,
     interaction_query: Query<&Interaction, (Changed<Interaction>, With<Button>)>,
     overlay_query: Query<Entity, With<TitleOverlay>>,

@@ -1,5 +1,13 @@
 use bevy::prelude::*;
 
+pub struct DeathPlugin;
+
+impl Plugin for DeathPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Update, death_overlay_system);
+    }
+}
+
 #[derive(Component)]
 pub struct DeathOverlay;
 
@@ -30,7 +38,7 @@ pub fn spawn_death_overlay(mut commands: Commands) {
         });
 }
 
-pub fn death_overlay_system(
+fn death_overlay_system(
     mut commands: Commands,
     interaction_query: Query<&Interaction, (Changed<Interaction>, With<Button>)>,
     overlay_query: Query<Entity, With<DeathOverlay>>,

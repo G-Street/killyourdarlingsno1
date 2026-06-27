@@ -70,7 +70,7 @@ fn spawn_obstacles(
 
 fn despawn_obstacles(mut _commands: Commands) {}
 
-pub fn enemy_bundle(pos: Vec2) -> impl Bundle {
+fn enemy_bundle(pos: Vec2) -> impl Bundle {
     (
         Transform::from_xyz(pos.x, pos.y, 0.0),
         Sprite {

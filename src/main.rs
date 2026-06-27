@@ -1,9 +1,9 @@
 use crate::{
     background::{camera_parallax_bundle, BackgroundPlugin},
-    killzone::{kill_player_system, killzone_system, KillPlayer},
+    killzone::KillZonePlugin,
     obstacles::ObstaclesPlugin,
     player::Player,
-    ui::{death::death_overlay_system, title::TitlePlugin},
+    ui::{death::DeathPlugin, title::TitlePlugin},
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -20,21 +20,20 @@ fn main() {
                     ..default()
                 })
                 .set(
-                    // nearest sampling, to prevent blurry sprites
+                    // Nearest sampling, to prevent blurry sprites
                     ImagePlugin::default_nearest(),
                 ),
             // Use units-per-meter scaling factor of 1 meter to 20 pixels
             PhysicsPlugins::default().with_length_unit(20.0),
-            // Main menu
             TitlePlugin,
+            BackgroundPlugin,
+            ObstaclesPlugin,
+            KillZonePlugin,
+            DeathPlugin,
         ))
         .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
-        .add_message::<KillPlayer>()
         .add_systems(Startup, setup)
         .add_systems(FixedUpdate, controls)
-        .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain())
-        .add_systems(Update, death_overlay_system)
-        .add_plugins((BackgroundPlugin, ObstaclesPlugin))
         .run();
 }
 

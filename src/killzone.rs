@@ -2,13 +2,22 @@ use crate::{player::Player, ui::death::spawn_death_overlay};
 use avian2d::collision::collision_events::CollisionStart;
 use bevy::prelude::*;
 
+pub struct KillZonePlugin;
+
+impl Plugin for KillZonePlugin {
+    fn build(&self, app: &mut App) {
+        app.add_message::<KillPlayer>()
+            .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain());
+    }
+}
+
 #[derive(Component)]
 pub struct KillZone;
 
 #[derive(Message, Deref)]
 pub struct KillPlayer(Entity);
 
-pub fn killzone_system(
+fn killzone_system(
     mut collisions: MessageReader<CollisionStart>,
     players: Query<&Player>,
     killzones: Query<&KillZone>,
@@ -40,7 +49,7 @@ pub fn killzone_system(
     }
 }
 
-pub fn kill_player_system(
+fn kill_player_system(
     mut commands: Commands,
     mut events: MessageReader<KillPlayer>,
     players: Query<&Player>,
