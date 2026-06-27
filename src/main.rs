@@ -3,6 +3,7 @@ use crate::{
     killzone::{kill_player_system, killzone_system, KillPlayer},
     obstacles::ObstaclesPlugin,
     player::Player,
+    ui::death_overlay_system,
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -30,6 +31,7 @@ fn main() {
         .add_systems(Startup, setup)
         .add_systems(FixedUpdate, controls)
         .add_systems(FixedUpdate, (killzone_system, kill_player_system).chain())
+        .add_systems(Update, death_overlay_system)
         .add_plugins((parallax_plugin, ObstaclesPlugin))
         .run();
 }
@@ -97,3 +99,4 @@ pub mod background;
 pub mod killzone;
 pub mod obstacles;
 pub mod player;
+pub mod ui;

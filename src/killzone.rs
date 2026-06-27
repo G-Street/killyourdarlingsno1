@@ -1,4 +1,4 @@
-use crate::player::Player;
+use crate::{player::Player, ui::spawn_death_overlay};
 use avian2d::collision::collision_events::CollisionStart;
 use bevy::prelude::*;
 
@@ -52,5 +52,6 @@ pub fn kill_player_system(
         };
 
         commands.entity(e.entity()).despawn();
+        commands.run_system_cached(spawn_death_overlay);
     }
 }
