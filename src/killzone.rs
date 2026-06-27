@@ -1,4 +1,4 @@
-use crate::{player::Player, ui::spawn_death_overlay};
+use crate::{player::Player, ui::death::spawn_death_overlay};
 use avian2d::collision::collision_events::CollisionStart;
 use bevy::prelude::*;
 

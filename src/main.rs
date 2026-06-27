@@ -3,7 +3,7 @@ use crate::{
     killzone::{kill_player_system, killzone_system, KillPlayer},
     obstacles::ObstaclesPlugin,
     player::Player,
-    ui::{death_overlay_system, TitlePlugin},
+    ui::{death::death_overlay_system, title::TitlePlugin},
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
@@ -101,4 +101,5 @@ pub mod background;
 pub mod killzone;
 pub mod obstacles;
 pub mod player;
+pub mod state;
 pub mod ui;
