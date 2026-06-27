@@ -36,7 +36,7 @@ fn main() {
         .run();
 }
 
-fn setup(mut commands: Commands) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Camera and background
     commands.spawn(camera_parallax_bundle());
 
@@ -46,7 +46,7 @@ fn setup(mut commands: Commands) {
         Transform::from_xyz(0.0, 0.0, 0.0),
         player,
         Sprite {
-            color: Color::srgb(0.25, 0.25, 0.55),
+            image: asset_server.load("textures/subject/chick.png"),
             custom_size: Some(player.size),
             ..default()
         },
