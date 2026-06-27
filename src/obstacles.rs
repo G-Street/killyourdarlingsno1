@@ -42,6 +42,7 @@ fn startup(mut commands: Commands) {
     commands.insert_resource(Random(rng));
 }
 
+// TODO (bug): you can win the game by sticking to the far right
 fn spawn_obstacles(
     mut commands: Commands,
     mut previous: Local<f32>,
@@ -68,6 +69,7 @@ fn spawn_obstacles(
     )));
 }
 
+// TODO: this will cause performance issues eventually.
 fn despawn_obstacles(mut _commands: Commands) {}
 
 fn enemy_bundle(pos: Vec2) -> impl Bundle {
