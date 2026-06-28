@@ -2,6 +2,7 @@ use crate::{
     background::{camera_parallax_bundle, BackgroundPlugin},
     killzone::KillZonePlugin,
     obstacles::ObstaclesPlugin,
+    physics::PhysicsPlugin,
     player::Player,
     state::GameStatePlugin,
     ui::{death::DeathPlugin, hud::HudPlugin, title::TitlePlugin, won::WonPlugin},
@@ -9,9 +10,6 @@ use crate::{
 };
 use avian2d::prelude::*;
 use bevy::prelude::*;
-
-// Units-per-metre scaling factor of 1 metre to 20 pixels
-pub const PIXELS_PER_METRE: f32 = 20.0;
 
 fn main() {
     App::new()
@@ -28,7 +26,7 @@ fn main() {
                     // Nearest sampling, to prevent blurry sprites
                     ImagePlugin::default_nearest(),
                 ),
-            PhysicsPlugins::default().with_length_unit(PIXELS_PER_METRE),
+            PhysicsPlugin,
             GameStatePlugin,
             TitlePlugin,
             BackgroundPlugin,
@@ -39,9 +37,7 @@ fn main() {
             WonPlugin,
             WinZonePlugin,
         ))
-        .insert_resource(Gravity(Vec2::NEG_Y * 980.0))
         .add_systems(Startup, setup)
-        .add_systems(FixedUpdate, controls)
         .run();
 }
 
@@ -92,21 +88,11 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 }
 
-fn controls(input: Res<ButtonInput<KeyCode>>, query: Single<(&Player, &mut LinearVelocity)>) {
-    let (player, mut velocity) = query.into_inner();
-
-    if input.any_pressed([KeyCode::ArrowLeft, KeyCode::KeyA]) {
-        velocity.x = -player.movement_speed;
-    } else if input.any_pressed([KeyCode::ArrowRight, KeyCode::KeyD]) {
-        velocity.x = player.movement_speed;
-    } else {
-        velocity.x = 0.0;
-    }
-}
 
 pub mod background;
 pub mod killzone;
 pub mod obstacles;
+pub mod physics;
 pub mod player;
 pub mod state;
 pub mod ui;

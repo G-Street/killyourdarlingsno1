@@ -22,6 +22,6 @@ impl Default for Player {
 impl Player {
     // Depth the player has fallen from the top of the map
     pub fn depth(transform: &Transform) -> f32 {
-        (-transform.translation.y / (crate::PIXELS_PER_METRE * 10.0)).max(0.0)
+        (-transform.translation.y / (crate::physics::PIXELS_PER_METRE * 10.0)).max(0.0)
     }
 }
