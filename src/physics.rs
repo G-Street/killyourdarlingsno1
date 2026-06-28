@@ -10,6 +10,7 @@ pub mod consts {
     pub const FEATHER_GRAVITATIONAL_SCALE: f32 = 0.05;
     pub const UPWARD_FORCE: f32 = 10.0;
     pub const MOVEMENT_SPEED: f32 = 500.0;
+    pub const TERMINAL_VELOCITY: f32 = 100.0;
     // The larger the depth scale, the more pixels the player has to fall for each metre
     // of depth
     pub const DEPTH_SCALE: f32 = 10.0;
@@ -21,7 +22,7 @@ impl Plugin for PhysicsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(PhysicsPlugins::default().with_length_unit(PIXELS_PER_METRE))
             .insert_resource(Gravity(Vec2::NEG_Y * GRAVITATIONAL_CONSTANT))
-            .add_systems(FixedUpdate, player_controls);
+            .add_systems(FixedUpdate, (player_controls, player_physics).chain());
     }
 }
 
@@ -38,4 +39,9 @@ fn player_controls(
     } else {
         velocity.x = 0.0;
     }
+}
+
+pub fn player_physics(query: Single<(&Player, &mut LinearVelocity)>) {
+    let (player, mut velocity) = query.into_inner();
+    velocity.y = velocity.y.max(-player.terminal_velocity);
 }

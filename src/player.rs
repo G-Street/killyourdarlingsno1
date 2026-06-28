@@ -6,6 +6,7 @@ use bevy::prelude::*;
 pub struct Player {
     pub movement_speed: f32, // Pixels per second
     pub size: Vec2,
+    pub terminal_velocity: f32,
 }
 
 impl Default for Player {
@@ -13,6 +14,7 @@ impl Default for Player {
         Self {
             movement_speed: MOVEMENT_SPEED,
             size: Vec2::new(50.0, 50.0),
+            terminal_velocity: TERMINAL_VELOCITY,
         }
     }
 }
