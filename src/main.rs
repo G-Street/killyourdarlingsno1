@@ -2,7 +2,7 @@ use crate::{
     background::{camera_parallax_bundle, BackgroundPlugin},
     killzone::KillZonePlugin,
     obstacles::ObstaclesPlugin,
-    physics::PhysicsPlugin,
+    physics::{consts::*, PhysicsPlugin},
     player::Player,
     state::GameStatePlugin,
     ui::{death::DeathPlugin, hud::HudPlugin, title::TitlePlugin, won::WonPlugin},
@@ -65,9 +65,9 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         // Apply a constant force of 10 N in the positive y direction (to represent air
         // resistance or something, (I just found it in the Avian docs and wanted to use
         // it (not scope creep)))
-        ConstantForce::new(0.0, 10.0),
+        ConstantForce::new(0.0, UPWARD_FORCE),
         // Feather falls slowly
-        GravityScale(0.05),
+        GravityScale(FEATHER_GRAVITATIONAL_SCALE),
     ));
 
     // Walls

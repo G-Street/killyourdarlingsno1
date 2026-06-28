@@ -1,3 +1,4 @@
+use crate::physics::consts::*;
 use bevy::prelude::*;
 
 // TODO: do we need a terminal velidity to stop it moving so fast?
@@ -10,8 +11,7 @@ pub struct Player {
 impl Default for Player {
     fn default() -> Self {
         Self {
-            // TODO: is this too fast?
-            movement_speed: 500.0,
+            movement_speed: MOVEMENT_SPEED,
             size: Vec2::new(50.0, 50.0),
         }
     }
@@ -22,6 +22,6 @@ impl Default for Player {
 impl Player {
     // Depth the player has fallen from the top of the map
     pub fn depth(transform: &Transform) -> f32 {
-        (-transform.translation.y / (crate::physics::PIXELS_PER_METRE * 10.0)).max(0.0)
+        (-transform.translation.y / (PIXELS_PER_METRE * DEPTH_SCALE)).max(0.0)
     }
 }
