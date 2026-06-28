@@ -35,7 +35,7 @@ pub fn spawn_death_overlay(mut commands: Commands) {
             parent.spawn((
                 Text::new("you died :("),
                 TextFont {
-                    font_size: 32.0,
+                    font_size: FontSize::Px(32.0),
                     ..default()
                 },
             ));

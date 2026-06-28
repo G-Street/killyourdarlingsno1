@@ -18,7 +18,7 @@ fn spawn_hud(mut commands: Commands) {
         DepthText,
         Text::new("Depth: 0.0 m"),
         TextFont {
-            font_size: 24.0,
+            font_size: FontSize::Px(24.0),
             ..default()
         },
         Node {

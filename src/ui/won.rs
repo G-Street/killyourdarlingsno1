@@ -32,7 +32,7 @@ pub fn spawn_won_overlay(mut commands: Commands) {
             parent.spawn((
                 Text::new("you made it to the bottom :)"),
                 TextFont {
-                    font_size: 32.0,
+                    font_size: FontSize::Px(32.0),
                     ..default()
                 },
             ));

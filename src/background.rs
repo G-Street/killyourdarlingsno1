@@ -1,6 +1,6 @@
 use crate::player::Player;
 use bevy::prelude::*;
-use bevy_parallaxium::{
+use bevy_parallax::{
     LayerRepeat, ParallaxCamera, ParallaxLayer, ParallaxMoveEvent, ParallaxPlugin, ParallaxSystems,
 };
 

@@ -71,7 +71,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 
     // Walls
-    let wall_offset = (background::WIDTH as f32) / 2.0;
+    let wall_offset = (64.0 * 5.0) / 2.0;
     commands.spawn((
         RigidBody::Static,
         Collider::rectangle(0.0, f32::MAX),
@@ -87,7 +87,6 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         Friction::ZERO,
     ));
 }
-
 
 pub mod background;
 pub mod killzone;

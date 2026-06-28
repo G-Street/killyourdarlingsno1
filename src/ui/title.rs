@@ -32,7 +32,7 @@ fn spawn_title(mut commands: Commands) {
             parent.spawn((
                 Text::new("Feather Falling IV"),
                 TextFont {
-                    font_size: 64.0,
+                    font_size: FontSize::Px(64.0),
                     ..default()
                 },
                 Node {
@@ -43,7 +43,7 @@ fn spawn_title(mut commands: Commands) {
             parent.spawn((
                 Text::new("press any key to start falling"),
                 TextFont {
-                    font_size: 32.0,
+                    font_size: FontSize::Px(32.0),
                     ..default()
                 },
             ));
