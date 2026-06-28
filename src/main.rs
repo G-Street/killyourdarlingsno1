@@ -41,34 +41,12 @@ fn main() {
         .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands) {
     // Camera and background
     commands.spawn(camera_parallax_bundle());
 
     // Player
-    let player = Player::default();
-    commands.spawn((
-        Transform::from_xyz(0.0, 0.0, 0.0),
-        player,
-        Sprite {
-            image: asset_server.load("textures/subject/chick.png"),
-            custom_size: Some(player.size),
-            ..default()
-        },
-        RigidBody::Dynamic,
-        Collider::rectangle(player.size.x, player.size.y),
-        CollisionEventsEnabled,
-        // Friction disabled for now or else the player can hold onto the walls
-        Friction::ZERO,
-        // Game crashes if Player collides with wall and rotates 💀
-        LockedAxes::ROTATION_LOCKED,
-        // Apply a constant force of 10 N in the positive y direction (to represent air
-        // resistance or something, (I just found it in the Avian docs and wanted to use
-        // it (not scope creep)))
-        ConstantForce::new(0.0, UPWARD_FORCE),
-        // Feather falls slowly
-        GravityScale(FEATHER_GRAVITATIONAL_SCALE),
-    ));
+    commands.queue_spawn_scene(player_scene());
 
     // Walls
     let wall_offset = (64.0 * 5.0) / 2.0;
@@ -86,6 +64,32 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         // Friction disabled for now or else the player can hold onto the walls
         Friction::ZERO,
     ));
+}
+
+fn player_scene() -> impl Scene {
+    let size = Vec2::new(50.0, 50.0);
+
+    bsn! {
+        Transform
+        Player
+        Sprite {
+            image: "textures/subject/chick.png",
+            custom_size: size,
+        }
+        RigidBody
+        Collider::rectangle(size.x, size.y)
+        CollisionEventsEnabled
+        // Friction disabled for now or else the player can hold onto the walls
+        Friction::ZERO
+        // Game crashes if Player collides with wall and rotates 💀
+        LockedAxes::ROTATION_LOCKED
+        // Apply a constant force of 10 N in the positive y direction (to represent air
+        // resistance or something, (I just found it in the Avian docs and wanted to use
+        // it (not scope creep)))
+        ConstantForce::new(0.0, UPWARD_FORCE)
+        // Feather falls slowly
+        GravityScale(FEATHER_GRAVITATIONAL_SCALE)
+    }
 }
 
 pub mod background;
